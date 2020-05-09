@@ -119,6 +119,34 @@ case class MySqlProxy(jdbcUrl: String, jdbcUser: String, jdbcPassword: String, c
     rtn
   }
 
+  /**
+   * 批量执行SQL语句
+   *
+   * @param sql
+   * @param paramsList
+   * @return 每条SQL语句影响的行数
+   */
+  def executeInsert(sql: String, params: Array[Any]): Int = {
+    var rtn = 0
+    var pstmt: PreparedStatement = null
+
+    try {
+      mysqlClient.setAutoCommit(false)
+      pstmt = mysqlClient.prepareStatement(sql)
+
+      if (params != null && params.length > 0) {
+        for (i <- 0 until params.length) {
+          pstmt.setObject(i + 1, params(i))
+        }
+      }
+      rtn = pstmt.executeUpdate()
+      mysqlClient.commit()
+    } catch {
+      case e: Exception => e.printStackTrace
+    }
+    rtn
+  }
+
   // 关闭MySQL客户端
   def shutdown(): Unit = mysqlClient.close()
 }

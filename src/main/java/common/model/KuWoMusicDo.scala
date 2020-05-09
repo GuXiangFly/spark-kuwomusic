@@ -51,3 +51,39 @@ case class UserInfo(user_id: Long,
                     sex: String
                    )
 
+
+/**
+ * create table hot_word_info
+ * (
+ * id            int auto_increment
+ * primary key,
+ * hot_word_type text null,
+ * hot_word_json text null
+ * );
+ */
+case class HotWordInfo(
+                        id:Int,
+                        hot_word_type:String,
+                        hot_word_json:String
+                      )
+
+
+case class HotWordBean(
+                      name:String,
+                      value: Int
+                      )
+
+
+/**
+ * create table analysis_result_info
+ * (
+ * id          int          null,
+ * result_type varchar(255) null,
+ * result_json text         null
+ * );
+ */
+case class AnalysisResultInfo(
+                        id:Int,
+                        result_type:String,
+                        result_json:String
+                      )
